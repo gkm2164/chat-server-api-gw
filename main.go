@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 func main() {
@@ -42,4 +43,7 @@ func main() {
 			"body": "Connected.",
 		})
 	})
+	if err := server.Run(":8081"); err != nil {
+		log.Fatalf("error while loading server: %v", err)
+	}
 }
