@@ -9,7 +9,7 @@ import (
 
 func main() {
 	server := gin.New()
-	server.POST("/connect", func(c *gin.Context) {
+	server.GET("/connect", func(c *gin.Context) {
 		fmt.Println(c.Request.Header)
 		if body, err := ioutil.ReadAll(c.Request.Body); err != nil {
 			c.JSON(400, gin.H{
