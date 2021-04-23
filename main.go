@@ -12,6 +12,7 @@ func main() {
 	server.GET("/connect", func(c *gin.Context) {
 		fmt.Println(c.Request.RequestURI)
 		fmt.Println(c.Request.Header)
+		fmt.Println(c.Params)
 		if body, err := ioutil.ReadAll(c.Request.Body); err != nil {
 			c.JSON(400, gin.H{
 				"statusCode": 400,
