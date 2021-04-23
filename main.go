@@ -10,19 +10,13 @@ import (
 func main() {
 	server := gin.New()
 	server.POST("/connect", func(c *gin.Context) {
-
-		if body, err := c.Request.GetBody(); err != nil {
-			c.JSON(400, gin.H{
-				"statusCode": 400,
-				"body": "Bad request",
-			})
-		} else if bytes, err := ioutil.ReadAll(body); err != nil {
+		if body, err := ioutil.ReadAll(c.Request.Body); err != nil {
 			c.JSON(400, gin.H{
 				"statusCode": 400,
 				"body": "Bad request",
 			})
 		} else {
-			fmt.Println(string(bytes))
+			fmt.Println(string(body))
 			c.JSON(200, gin.H{
 				"statusCode": 200,
 				"body":       "Connected.",
