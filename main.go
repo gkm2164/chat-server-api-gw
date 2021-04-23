@@ -3,21 +3,31 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"io/ioutil"
 	"log"
 )
 
 func main() {
 	server := gin.New()
 	server.POST("/connect", func(c *gin.Context) {
-		var x gin.H
-		_ = c.BindJSON(&x)
 
-		fmt.Println(x)
-
-		c.JSON(200, gin.H{
-			"statusCode": 200,
-			"body": "Connected.",
-		})
+		if body, err := c.Request.GetBody(); err != nil {
+			c.JSON(400, gin.H{
+				"statusCode": 400,
+				"body": "Bad request",
+			})
+		} else if bytes, err := ioutil.ReadAll(body); err != nil {
+			c.JSON(400, gin.H{
+				"statusCode": 400,
+				"body": "Bad request",
+			})
+		} else {
+			fmt.Println(string(bytes))
+			c.JSON(200, gin.H{
+				"statusCode": 200,
+				"body":       "Connected.",
+			})
+		}
 	})
 
 	server.POST("/sendmessage", func(c *gin.Context) {
